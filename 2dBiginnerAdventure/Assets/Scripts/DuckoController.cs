@@ -1,55 +1,110 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class DuckoController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
+    // Variables related to player character movement
+    public InputAction MoveAction;
+    Rigidbody2D rigidbody2d;
+    Vector2 move;
     public float speed = 3.0f;
 
+
+    // Variables related to the health system
     public int maxHealth = 5;
-    public float timeInvincible = 2;
     int currentHealth;
+    public int health { get { return currentHealth; } }
 
-    bool inInvincible;
-    float inInvincibleTimer;
 
-    Rigidbody2D rigidbody2d;
-    float horizontal;
-    float vertical;
+    // Variables related to temporary invincibility
+    public float timeInvincible = 2.0f;
+    bool isInvincible;
+    float damageCooldown;
+
+
+    // Variables related to animation
+    Animator animator;
+    Vector2 moveDirection = new Vector2(1, 0);
+
+
+    // Variables related to projectiles
+    public GameObject projectilePrefab;
+    public InputAction launchAction;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        MoveAction.Enable();
         rigidbody2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
         currentHealth = maxHealth;
-        currentHealth = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        move = MoveAction.ReadValue<Vector2>();
 
+
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            moveDirection.Set(move.x, move.y);
+            moveDirection.Normalize();
+        }
+
+
+        animator.SetFloat("Move X", moveDirection.x);
+        animator.SetFloat("Move Y", moveDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
+
+
+        if (isInvincible)
+        {
+            damageCooldown -= Time.deltaTime;
+            if (damageCooldown < 0)
+                isInvincible = false;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Launch();
+        }
 
     }
+
+    private void Launch()
+    {
+        throw new NotImplementedException();
+    }
+
+
+    // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
-        Vector2 position = rigidbody2d.position;
-        position.x = position.x + speed * horizontal * Time.deltaTime;
-        position.y = position.y + speed* vertical * Time.deltaTime; ;
-
+        Vector2 position = (Vector2)rigidbody2d.position + move * speed * Time.deltaTime;
         rigidbody2d.MovePosition(position);
     }
 
+
     public void ChangeHealth(int amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
-    }
+        if (amount < 0)
+        {
+            if (isInvincible)
+                return;
 
-    internal void C(int v)
-    {
-        throw new NotImplementedException();
+            isInvincible = true;
+            damageCooldown = timeInvincible;
+            animator.SetTrigger("Hit");
+        }
     }
 }
