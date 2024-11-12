@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         timer = changeTime;
     }
 
@@ -36,7 +37,7 @@ public class EnemyController : MonoBehaviour
         {
             direction = -direction;
             timer = changeTime;
-            animator = GetComponent<Animator>();
+            
         }
     }
 
