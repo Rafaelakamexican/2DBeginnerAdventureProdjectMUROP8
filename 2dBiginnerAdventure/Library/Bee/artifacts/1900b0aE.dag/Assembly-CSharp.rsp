@@ -407,12 +407,9 @@
 -analyzer:"C:/Program Files/Unity 2022.3.42f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/DamageZone.cs"
 "Assets/Scripts/DuckoController.cs"
-<<<<<<< HEAD
-"Assets/Scripts/EmemyController.cs"
-=======
 "Assets/Scripts/DuckoController1.cs"
+"Assets/Scripts/EmemyController.cs"
 "Assets/Scripts/EnemyController.cs"
->>>>>>> 046ceed7591c409e9c122a9766b00678ba967e07
 "Assets/Scripts/HealthCollectiable.cs"
 "Assets/Scripts/Projectile.cs"
 -langversion:9.0
