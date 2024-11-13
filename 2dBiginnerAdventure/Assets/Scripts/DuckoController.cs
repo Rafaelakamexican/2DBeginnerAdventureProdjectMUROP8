@@ -11,8 +11,8 @@ public class DuckoController : MonoBehaviour
     public float timeInvincible = 2;
     int currentHealth;
 
-    bool inInvincible;
-    float inInvincibleTimer;
+    bool isInvincible;
+    float isInvincibleTimer;
 
     Rigidbody2D rigidbody2d;
     float horizontal;
@@ -31,25 +31,36 @@ public class DuckoController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-
+        if (isInvincible)
+        {
+            isInvincibleTimer -= Time.deltaTime;
+            if (isInvincibleTimer < 0)
+            {
+                isInvincible = false;
+            }
+        }
     }
     void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
         position.x = position.x + speed * horizontal * Time.deltaTime;
-        position.y = position.y + speed* vertical * Time.deltaTime; ;
+        position.y = position.y + speed * vertical * Time.deltaTime; ;
 
         rigidbody2d.MovePosition(position);
     }
 
     public void ChangeHealth(int amount)
     {
+        if(amount < 0 )
+        {
+            if(isInvincible)
+            {
+                return;
+            }
+            isInvincible = true;
+            isInvincibleTimer = timeInvincible;
+        }
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
-    }
-
-    internal void C(int v)
-    {
-        throw new NotImplementedException();
     }
 }
