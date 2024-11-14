@@ -401,7 +401,6 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.42f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scripts/DamageZone.cs"
 "Assets/Scripts/DuckoController.cs"
-"Assets/Scripts/DuckoController1.cs"
 "Assets/Scripts/EnemyController.cs"
 "Assets/Scripts/HealthCollectiable.cs"
 "Assets/Scripts/Projectile.cs"

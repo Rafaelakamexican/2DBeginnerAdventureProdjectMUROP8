@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 936362311907179640}
   - component: {fileID: 963667029523716175}
   - component: {fileID: 3193389597656864312}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ducko
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,28 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5887dce31c9902540b9ec1bd7cfa466c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveAction:
-    m_Name: Move
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: c152f41e-b4bd-4aef-b05a-f0349e40838e
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   speed: 3
   maxHealth: 5
+  projectilePrefab: {fileID: 418437062026149633, guid: a37da44222fded844ba7098a8e4dd5e6, type: 3}
   timeInvincible: 2
-  projectilePrefab: {fileID: 0}
-  launchAction:
-    m_Name: Launch
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: d61ff137-01e3-4e66-a0b4-b9d58063d8ac
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!50 &936362311907179640
 Rigidbody2D:
   serializedVersion: 4
