@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Public variables
     public float speed = 3.0f;
     public bool vertical;
     public float changeTime = 3.0f;
 
-    // Private variables
+    bool broken = true;
+  
     Rigidbody2D rigidbody2d;
+
     float timer;
     int direction = 1;
 
@@ -29,7 +30,10 @@ public class EnemyController : MonoBehaviour
     // Update is called every frame
     void Update()
     {
-
+        if(!broken)
+        {
+            return;
+        }
         timer -= Time.deltaTime;
 
 
@@ -44,6 +48,11 @@ public class EnemyController : MonoBehaviour
     // FixedUpdate has the same call rate as the physics system
     void FixedUpdate()
     {
+        if (!broken)
+        {
+            return;
+
+        }
         Vector2 position = rigidbody2d.position;
         if (vertical)
         {
@@ -60,5 +69,11 @@ public class EnemyController : MonoBehaviour
 
 
         rigidbody2d.MovePosition(position);
+    }
+    public void Fix()
+    {
+        broken = false;
+        rigidbody2d.simulated = false;
+        animator.SetTrigger("Fixed"); 
     }
 }

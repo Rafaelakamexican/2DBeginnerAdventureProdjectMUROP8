@@ -402,7 +402,7 @@
 "Assets/Scripts/DamageZone.cs"
 "Assets/Scripts/DuckoController.cs"
 "Assets/Scripts/EnemyController.cs"
-"Assets/Scripts/HealthCollectiable.cs"
+"Assets/Scripts/HealthCollectibles.cs"
 "Assets/Scripts/Projectile.cs"
 -langversion:9.0
 /deterministic

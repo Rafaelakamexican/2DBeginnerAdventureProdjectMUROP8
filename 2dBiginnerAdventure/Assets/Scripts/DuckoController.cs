@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DuckoController : MonoBehaviour
@@ -11,12 +11,12 @@ public class DuckoController : MonoBehaviour
 
     public GameObject projectilePrefab;
 
-    public float timeInvincible = 2;
+    public float timeInvincible = 2.0f;
     public int health { get { return currentHealth; } }
     int currentHealth;
 
     bool isInvincible;
-    float isInvinvibleTimer;
+    float inInvincibleTimer;
 
     Rigidbody2D rigidbody2d;
     float horizontal;
@@ -24,18 +24,19 @@ public class DuckoController : MonoBehaviour
 
     Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
-    private float invincibleTimer;
-    private int maxhealth;
+    private GameObject proijectilePrefab;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update 
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+
+
     }
 
-    // Update is called once per frame
+    // Update is callled once per frame
     void Update()
     {
         horizontal = Input.GetAxis("Horizontal");
@@ -47,7 +48,6 @@ public class DuckoController : MonoBehaviour
         {
             lookDirection.Set(move.x, move.y);
             lookDirection.Normalize();
-
         }
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
@@ -55,22 +55,24 @@ public class DuckoController : MonoBehaviour
 
         if (isInvincible)
         {
-            invincibleTimer -= Time.deltaTime;
-            if (invincibleTimer < 0)
+            inInvincibleTimer -= Time.deltaTime;
+            if (inInvincibleTimer > 0)
             {
-                isInvincible = false;
+                {
+                    isInvincible = false;
+                }
             }
-        }
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            Launch();
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Launch();
+            }
         }
     }
     void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
-        position.x = position.x + speed * Time.deltaTime * horizontal;
-        position.y = position.y + speed * Time.deltaTime * vertical; 
+        position.x = position.x + speed * horizontal * Time.deltaTime;
+        position.y = position.y + speed * vertical * Time.deltaTime; ;
 
         rigidbody2d.MovePosition(position);
     }
@@ -85,19 +87,20 @@ public class DuckoController : MonoBehaviour
                 return;
             }
             isInvincible = true;
-            invincibleTimer = timeInvincible;
+            inInvincibleTimer = timeInvincible;
         }
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxhealth);
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         Debug.Log(currentHealth + "/" + maxHealth);
     }
-
     void Launch()
     {
-        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+        GameObject proijectileObject = Instantiate(proijectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
 
-        Projectile projectile = projectileObject.AddComponent<Projectile>();
+        Projectile projectile = proijectileObject.GetComponent<Projectile>();
         projectile.Launch(lookDirection, 300);
 
         animator.SetTrigger("Launch");
     }
+
+
 }
